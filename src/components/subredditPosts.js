@@ -8,8 +8,9 @@ const SubredditPosts = ({
   postViewData,
 }) => {
   const [subredditPostData, setSubredditPostData] = useState(null);
-  //https://www.reddit.com/r/politics/hot.json
+  const [fetching, setFetching] = useState(false);
   useEffect(() => {
+    setFetching(true);
     axios
       .get(`https://oauth.reddit.com${subredditURL}hot.json`, {
         headers: { Authorization: "Bearer " + token },
@@ -20,26 +21,35 @@ const SubredditPosts = ({
       });
   }, [subredditURL]);
   return (
-    <div id="post-list" className="h-full scroll-y">
-      <button onClick={() => setSubredditView(null)}>close</button>
-      {subredditPostData &&
-        subredditPostData.map((dataChild) => {
-          const post = dataChild.data;
-          let selected = false;
-          debugger;
-          if (postViewData && post.name === postViewData.name) {
-            selected = true;
-          }
-          return (
-            <div
-              className={`r-list-item${selected ? " active-item" : ""}`}
-              onClick={() => setPostViewData(post)}>
-              <p>{post.title}</p>
-              <span>Score: {post.score}</span>
-              {post.thumbnail !== "self" && <img src={post.thumbnail} />}
-            </div>
-          );
-        })}
+    <div id="post-list" className="p-sm h-full scroll-y">
+      {fetching ? (
+        <React.Fragment>
+          <button onClick={() => setSubredditView(null)}>close</button>
+          {subredditPostData &&
+            subredditPostData.map((dataChild) => {
+              const post = dataChild.data;
+              let selected = false;
+              if (postViewData && post.name === postViewData.name) {
+                selected = true;
+              }
+              return (
+                <div
+                  className={`p-sm r-list-item${
+                    selected ? " active-item" : ""
+                  }`}
+                  onClick={() => setPostViewData(post)}>
+                  <p className="text-m">
+                    <strong>{post.title}</strong>
+                  </p>
+                  <p className="text-sm">Score: {post.score}</p>
+                  {post.thumbnail !== "self" && <img src={post.thumbnail} />}
+                </div>
+              );
+            })}
+        </React.Fragment>
+      ) : (
+        "Loading..."
+      )}
     </div>
   );
 };

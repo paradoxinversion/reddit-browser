@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./style.css";
 import Subreddits from "./components/subreddits";
 import SubredditPosts from "./components/subredditPosts";
 import Post from "./components/post";
+import "./style.css";
 const cid = "3U33MeKVcTkBXw";
 
 function App() {
@@ -14,13 +13,16 @@ function App() {
   useEffect(() => {
     if (window.location.hash) {
       const query = window.location.hash.slice(1);
-      // http://localhost:3000/#access_token=49298123-4y14W0d4Tc-GaP1so9Pl8YiJHWM&token_type=bearer&state=wtfr&expires_in=3600&scope=read
       const authValues = query.split("&").reduce((acc, current) => {
         const kv = current.split("=");
         if (!acc[kv[0]]) acc[kv[0]] = kv[1];
         return acc;
       }, {});
       setAuth(authValues);
+      window.location.replace("#");
+      if (typeof window.history.replaceState == "function") {
+        window.history.replaceState({}, "", window.location.href.slice(0, -1));
+      }
     }
   }, []);
 
@@ -30,9 +32,9 @@ function App() {
 
   return (
     <div className="container app">
-      <header className="flex">
+      <header>
         <p className="text-red-700">Not-Reddit</p>
-        <p onClick={() => goToOAuth()}>Auth</p>
+        {!auth && <button onClick={() => goToOAuth()}>Sign In</button>}
       </header>
       <div className="h-full">
         <div className="flex h-full">
@@ -43,6 +45,7 @@ function App() {
                 setSubredditView={setSubredditView}
                 subredditView={subredditView}
               />
+
               {subredditView && (
                 <SubredditPosts
                   token={auth.access_token}
@@ -60,7 +63,10 @@ function App() {
               )}
             </React.Fragment>
           ) : (
-            <p>Log In</p>
+            <p>
+              Log In to view Reddit like you've never seen before! (Heads up:
+              This site isn't mobile ready, yet. Sorry!)
+            </p>
           )}
         </div>
       </div>

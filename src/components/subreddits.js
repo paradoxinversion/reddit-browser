@@ -21,10 +21,14 @@ const Subreddits = ({ token, subredditView, setSubredditView }) => {
             selected = true;
           }
           return (
-            <div className={`r-list-item${selected ? " active-item" : ""}`}>
-              <p onClick={() => setSubredditView(dataChild.data.url)}>
-                {dataChild.data.display_name_prefixed}
-                <span>({dataChild.data.subscribers} subscribers)</span>
+            <div
+              className={`p-sm r-list-item${selected ? " active-item" : ""}`}
+              onClick={() => setSubredditView(dataChild.data.url)}>
+              <p className="text-m">
+                <strong>
+                  {dataChild.data.display_name_prefixed}
+                  <span>({dataChild.data.subscribers} subscribers)</span>
+                </strong>
               </p>
               <p className="text-sm">{dataChild.data.public_description}</p>
             </div>

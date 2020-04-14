@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 const Post = ({ postViewData, setPostViewData }) => {
+  console.log(postViewData);
   return (
-    <div id="post" className="h-full scroll-y">
+    <div id="post" className="p-sm h-full scroll-y">
       <button onClick={() => setPostViewData(null)}>close</button>
-      <p>{postViewData.title}</p>
-      <p>{postViewData.author}</p>
-      <p>{new Date(postViewData.created_utc).toString()}</p>
-      <span>Score: {postViewData.score}</span>
-      {postViewData.thumbnail !== "self" && (
-        <img src={postViewData.thumbnail} />
+      <p className="text-m">
+        <strong>{postViewData.title}</strong>
+        <span className="text-sm"> Score: {postViewData.score}</span>
+      </p>
+      <p>
+        {postViewData.author} <span className="text-sm"></span>
+      </p>
+      {!postViewData.is_self && postViewData.post_hint === "image" && (
+        <img className="w-full" src={postViewData.url} alt="reddit_thumb" />
+      )}
+      {!postViewData.is_self && postViewData.post_hint === "hosted:video" && (
+        <a href={postViewData.url}>View video on Reddit.</a>
       )}
       {postViewData.selftext && <p>{postViewData.selftext}</p>}
     </div>
@@ -17,9 +24,3 @@ const Post = ({ postViewData, setPostViewData }) => {
 };
 
 export default Post;
-// thumbnail: "https://b.thumbs.redditmedia.com/R60ED5kY3rNxS7IMPKIERjj5WpS5ctrQcQZ4UNytNRQ.jpg"
-// post_hint: "image"
-// author: "goldrocco"
-// num_comments: 4
-// created_utc: 1586877506
-// score: 9

@@ -357,11 +357,13 @@ template {
 #post-list {
   width: 25%;
   border: 1px solid black;
+  border-left: none;
 }
 #post {
   width: auto;
   max-width: 50%;
   border: 1px solid black;
+  border-left: none;
 }
 
 .app {
@@ -375,16 +377,30 @@ template {
 .flex {
   display: flex;
 }
-
+.space-between {
+  justify-content: space-between;
+}
 .h-full {
   height: 100%;
+}
+
+.w-full {
+  width: 100%;
 }
 .text-sm {
   font-size: 0.75rem;
 }
 
+.text-m {
+  font-size: 1.25rem;
+}
+
 .container {
   margin: 1rem;
+}
+
+.p-sm {
+  padding: 0.5rem;
 }
 
 .scroll-y {
