@@ -352,18 +352,15 @@ template {
 
 #subreddit-list {
   width: 25%;
-  border: 1px solid black;
 }
 #post-list {
   width: 25%;
-  border: 1px solid black;
-  border-left: none;
+  border-left: 1px solid black;
 }
 #post {
   width: auto;
   max-width: 50%;
-  border: 1px solid black;
-  border-left: none;
+  border-left: 1px solid black;
 }
 
 .app {

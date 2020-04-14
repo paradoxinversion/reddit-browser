@@ -8,21 +8,20 @@ const SubredditPosts = ({
   postViewData,
 }) => {
   const [subredditPostData, setSubredditPostData] = useState(null);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   useEffect(() => {
-    setFetching(true);
     axios
       .get(`https://oauth.reddit.com${subredditURL}hot.json`, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        console.log(response);
+        setFetching(false);
         setSubredditPostData(response.data.data.children);
       });
   }, [subredditURL]);
   return (
     <div id="post-list" className="p-sm h-full scroll-y">
-      {fetching ? (
+      {!fetching ? (
         <React.Fragment>
           <button onClick={() => setSubredditView(null)}>close</button>
           {subredditPostData &&
@@ -34,6 +33,7 @@ const SubredditPosts = ({
               }
               return (
                 <div
+                  key={`${post.name}`}
                   className={`p-sm r-list-item${
                     selected ? " active-item" : ""
                   }`}

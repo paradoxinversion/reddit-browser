@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="container app">
       <header>
-        <p className="text-red-700">Not-Reddit</p>
+        <p className="text-m">Not-Reddit</p>
         {!auth && <button onClick={() => goToOAuth()}>Sign In</button>}
       </header>
       <div className="h-full">

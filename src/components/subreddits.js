@@ -8,7 +8,6 @@ const Subreddits = ({ token, subredditView, setSubredditView }) => {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        console.log(response);
         setSubredditData(response.data.data.children);
       });
   }, []);
@@ -17,20 +16,23 @@ const Subreddits = ({ token, subredditView, setSubredditView }) => {
       {subredditData &&
         subredditData.map((dataChild) => {
           let selected = false;
-          if (dataChild.data.url === subredditView) {
+          const subreddit = dataChild.data;
+          if (subreddit.url === subredditView) {
             selected = true;
           }
+
           return (
             <div
+              key={subreddit.name}
               className={`p-sm r-list-item${selected ? " active-item" : ""}`}
-              onClick={() => setSubredditView(dataChild.data.url)}>
+              onClick={() => setSubredditView(subreddit.url)}>
               <p className="text-m">
                 <strong>
-                  {dataChild.data.display_name_prefixed}
-                  <span>({dataChild.data.subscribers} subscribers)</span>
+                  {subreddit.display_name_prefixed}
+                  <span>({subreddit.subscribers} subscribers)</span>
                 </strong>
               </p>
-              <p className="text-sm">{dataChild.data.public_description}</p>
+              <p className="text-sm">{subreddit.public_description}</p>
             </div>
           );
         })}

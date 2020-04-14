@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 const Post = ({ postViewData, setPostViewData }) => {
-  console.log(postViewData);
   return (
     <div id="post" className="p-sm h-full scroll-y">
       <button onClick={() => setPostViewData(null)}>close</button>
@@ -9,8 +7,8 @@ const Post = ({ postViewData, setPostViewData }) => {
         <strong>{postViewData.title}</strong>
         <span className="text-sm"> Score: {postViewData.score}</span>
       </p>
-      <p>
-        {postViewData.author} <span className="text-sm"></span>
+      <p className="text-sm">
+        Posted by {postViewData.author} <span className="text-sm"></span>
       </p>
       {!postViewData.is_self && postViewData.post_hint === "image" && (
         <img className="w-full" src={postViewData.url} alt="reddit_thumb" />
