@@ -18,7 +18,7 @@ const SubredditPosts = ({
         setFetching(false);
         setSubredditPostData(response.data.data.children);
       });
-  }, [subredditURL]);
+  }, [subredditURL, token]);
   return (
     <div id="post-list" className="p-sm h-full scroll-y">
       {!fetching ? (
@@ -42,7 +42,9 @@ const SubredditPosts = ({
                     <strong>{post.title}</strong>
                   </p>
                   <p className="text-sm">Score: {post.score}</p>
-                  {post.thumbnail !== "self" && <img src={post.thumbnail} />}
+                  {post.thumbnail !== "self" && (
+                    <img src={post.thumbnail} alt="thumbail" />
+                  )}
                 </div>
               );
             })}

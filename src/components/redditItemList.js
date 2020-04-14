@@ -26,7 +26,7 @@ const RedditItemList = ({
       .then((response) => {
         setData(response.data.data.children);
       });
-  }, [endpoint]);
+  }, [endpoint, token]);
   const Component = components[listType];
   return (
     <Component

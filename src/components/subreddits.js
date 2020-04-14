@@ -10,7 +10,7 @@ const Subreddits = ({ token, subredditView, setSubredditView }) => {
       .then((response) => {
         setSubredditData(response.data.data.children);
       });
-  }, []);
+  }, [token]);
   return (
     <div id="subreddit-list" className="h-full scroll-y">
       {subredditData &&
