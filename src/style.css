@@ -360,7 +360,12 @@ template {
 }
 #post {
   width: auto;
+  max-width: 50%;
   border: 1px solid black;
+}
+
+.app {
+  height: 100vh;
 }
 
 .r-list-item:hover {
@@ -369,4 +374,23 @@ template {
 
 .flex {
   display: flex;
+}
+
+.h-full {
+  height: 100%;
+}
+.text-sm {
+  font-size: 0.75rem;
+}
+
+.container {
+  margin: 1rem;
+}
+
+.scroll-y {
+  overflow-y: scroll;
+}
+
+.active-item {
+  background-color: aqua;
 }

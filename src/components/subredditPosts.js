@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-const SubredditPosts = ({ token, subredditURL }) => {
+const SubredditPosts = ({
+  token,
+  subredditURL,
+  setPostViewData,
+  setSubredditView,
+  postViewData,
+}) => {
   const [subredditPostData, setSubredditPostData] = useState(null);
   //https://www.reddit.com/r/politics/hot.json
   useEffect(() => {
@@ -12,14 +18,22 @@ const SubredditPosts = ({ token, subredditURL }) => {
         console.log(response);
         setSubredditPostData(response.data.data.children);
       });
-  }, []);
+  }, [subredditURL]);
   return (
-    <div>
+    <div id="post-list" className="h-full scroll-y">
+      <button onClick={() => setSubredditView(null)}>close</button>
       {subredditPostData &&
         subredditPostData.map((dataChild) => {
           const post = dataChild.data;
+          let selected = false;
+          debugger;
+          if (postViewData && post.name === postViewData.name) {
+            selected = true;
+          }
           return (
-            <div>
+            <div
+              className={`r-list-item${selected ? " active-item" : ""}`}
+              onClick={() => setPostViewData(post)}>
               <p>{post.title}</p>
               <span>Score: {post.score}</span>
               {post.thumbnail !== "self" && <img src={post.thumbnail} />}

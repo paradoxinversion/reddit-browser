@@ -3,12 +3,13 @@ import axios from "axios";
 import "./style.css";
 import Subreddits from "./components/subreddits";
 import SubredditPosts from "./components/subredditPosts";
+import Post from "./components/post";
 const cid = "3U33MeKVcTkBXw";
 
 function App() {
   const [auth, setAuth] = useState(null);
-  const [subbredditView, setSubredditView] = useState(null);
-  const [postView, setPostView] = useState(null);
+  const [subredditView, setSubredditView] = useState(null);
+  const [postViewData, setPostViewData] = useState(null);
 
   useEffect(() => {
     if (window.location.hash) {
@@ -28,33 +29,36 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header>
+    <div className="container app">
+      <header className="flex">
         <p className="text-red-700">Not-Reddit</p>
-      </header>
-      <div>
-        <p>Post area</p>
         <p onClick={() => goToOAuth()}>Auth</p>
-        <div>
+      </header>
+      <div className="h-full">
+        <div className="flex h-full">
           {auth ? (
-            <div className="flex">
+            <React.Fragment>
               <Subreddits
                 token={auth.access_token}
                 setSubredditView={setSubredditView}
+                subredditView={subredditView}
               />
-              {subbredditView && (
+              {subredditView && (
                 <SubredditPosts
                   token={auth.access_token}
-                  subredditURL={subbredditView}
+                  subredditURL={subredditView}
+                  setPostViewData={setPostViewData}
+                  setSubredditView={setSubredditView}
+                  postViewData={postViewData}
                 />
               )}
-              {postView && (
-                <SubredditPosts
-                  token={auth.access_token}
-                  subredditURL={subbredditView}
+              {postViewData && (
+                <Post
+                  postViewData={postViewData}
+                  setPostViewData={setPostViewData}
                 />
               )}
-            </div>
+            </React.Fragment>
           ) : (
             <p>Log In</p>
           )}
