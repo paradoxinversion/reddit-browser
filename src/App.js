@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./style.css";
+const cid = "tUy5c7rH8_03OQ";
 
 function App() {
+  const [initCode, setInitCode] = useState("jedaiReturnTest");
+  const goToOAuth = () => {
+    window.location.href = ` https://www.reddit.com/api/v1/authorize?client_id=${cid}&response_type=code&state=${initCode}&redirect_uri=http://localhost:3000&duration=temporary&scope=read`;
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <p className="text-red-700">Not-Reddit</p>
       </header>
+      <div>
+        <p>Post area</p>
+        <p onClick={() => goToOAuth()}>Auth</p>
+      </div>
     </div>
   );
 }
