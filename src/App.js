@@ -9,6 +9,7 @@ function App() {
   const [auth, setAuth] = useState(null);
   const [subredditView, setSubredditView] = useState(null);
   const [postViewData, setPostViewData] = useState(null);
+  const [queryType, setQueryType] = useState("hot");
 
   useEffect(() => {
     if (window.location.hash) {
@@ -44,6 +45,7 @@ function App() {
                 token={auth.access_token}
                 setSubredditView={setSubredditView}
                 subredditView={subredditView}
+                setPostViewData={setPostViewData}
               />
 
               {subredditView && (
@@ -53,6 +55,8 @@ function App() {
                   setPostViewData={setPostViewData}
                   setSubredditView={setSubredditView}
                   postViewData={postViewData}
+                  queryType={queryType}
+                  setQueryType={setQueryType}
                 />
               )}
               {postViewData && (

@@ -6,21 +6,56 @@ const SubredditPosts = ({
   setPostViewData,
   setSubredditView,
   postViewData,
+  queryType,
+  setQueryType,
 }) => {
+  const handleToggleChange = (e) => {
+    setQueryType(e.target.value);
+  };
   const [subredditPostData, setSubredditPostData] = useState(null);
   const [fetching, setFetching] = useState(true);
+
   useEffect(() => {
     axios
-      .get(`https://oauth.reddit.com${subredditURL}hot.json`, {
-        headers: { Authorization: "Bearer " + token },
-      })
+      .get(
+        `https://oauth.reddit.com${subredditURL}${queryType}.json?raw_json=1`,
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      )
       .then((response) => {
         setFetching(false);
         setSubredditPostData(response.data.data.children);
       });
-  }, [subredditURL, token]);
+  }, [subredditURL, token, queryType]);
+
   return (
     <div id="post-list" className="p-sm h-full scroll-y">
+      <form id="query-toggle">
+        <div>
+          <input
+            id="query-type-hot"
+            type="radio"
+            name="query-type"
+            value="hot"
+            onChange={handleToggleChange}
+            checked={queryType === "hot"}
+          />
+          <label htmlFor="query-type-hot">Hot</label>
+        </div>
+        <div>
+          <input
+            id="query-type-new"
+            type="radio"
+            name="query-type"
+            value="new"
+            onChange={handleToggleChange}
+            checked={queryType === "new"}
+          />
+          <label htmlFor="query-type-new">New</label>
+        </div>
+      </form>
+
       {!fetching ? (
         <React.Fragment>
           <button onClick={() => setSubredditView(null)}>close</button>
@@ -57,9 +92,3 @@ const SubredditPosts = ({
 };
 
 export default SubredditPosts;
-// thumbnail: "https://b.thumbs.redditmedia.com/R60ED5kY3rNxS7IMPKIERjj5WpS5ctrQcQZ4UNytNRQ.jpg"
-// post_hint: "image"
-// author: "goldrocco"
-// num_comments: 4
-// created_utc: 1586877506
-// score: 9
